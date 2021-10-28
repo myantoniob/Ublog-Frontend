@@ -1,0 +1,46 @@
+#header img {
+    width: 60px;
+}
+
+#main {
+    background-color: #458EA8;
+    color: white;
+}
+
+#footer {
+    height: 50px;
+    background: linear-gradient(90deg, #1c3643, #273b47 25%, #1e5372);
+}
+
+#login-nav img{
+    width: 65px;
+}
+
+#signup-nav img{
+    width: 65px;
+}
+
+#login-button {
+    background-color: #237cbf;
+}
+
+#signup-button {
+    background-color: #237cbf;
+}
+
+#update-button {
+    background-color: #237cbf;
+}
+
+#profile {
+    height: 75px;
+}
+
+#profile a{
+    color: rgb(172, 162, 162);
+   
+}
+
+#profile img {
+    width: 60px;
+}
