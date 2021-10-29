@@ -11,7 +11,7 @@
     <title>Ublog - All posts</title>
   </head>
   <body>
-    
+    <!-- Navbar -->
         <nav id="profile" class="navbar navbar-dark bg-dark ">
           <a class="navbar-brand" href="#">
             <img src="assets/images/logo3.jpg" alt="logo de la mepresa">
@@ -28,6 +28,47 @@
             </li>
           </ul>
         </nav>
+    <!-- /Navbar -->
+    
+    <!-- Publicaciones-->
+       <div class="d-flex flex-column" id="allpublicaciones"> </div> 
+    <!-- /Publicaciones-->    
+
+
+    <!-- Sript personalizadop -->
+        <script>
+          let allpublicaciones = document.getElementById("allpublicaciones");
+
+          fetch("http://localhost:5000/release",{
+            method: "GET"
+          })
+          .then((response) => response.json())
+          .then((data) => {
+            allpublicaciones.innerHTML = "";
+            data.forEach((publicacion) =>{
+              let card = document.createElement("div");
+							card.className = "card m-2";
+              card.id = publicacion.category;
+
+              let cardBody = document.createElement("div");
+							cardBody.className = "card-body";
+              let medicineName = document.createElement("h5");
+							medicineName.className = "card-title";
+							medicineName.innerText = publicacion.category;
+
+              cardBody.append(medicineName);
+              card.append(cardBody);
+              allpublicaciones.append(card);
+
+
+            })
+            
+          })
+
+      
+
+        </script>
+    <!-- /Sript personalizadop -->
 
     <!-- Optional JavaScript; choose one of the two! -->
 

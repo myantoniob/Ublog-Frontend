@@ -20,7 +20,7 @@
           <ul class="nav nav-tabs offset-md-4">
           
             <li class="nav-item">
-              <a class="nav-link " aria-current="page" href="#" >All Posts </a>
+              <a  class="nav-link " aria-current="page" href="#" >All Posts </a>
             </li>
             <li class="nav-item">
               <a class="nav-link " aria-current="page" href="#" >Mis posts</a>
@@ -29,7 +29,7 @@
               <a  class="nav-link" href="#">New Post</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Actualizar datos</a>
+              <a id="profileUpdate" class="nav-link" href="#">Actualizar datos</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Log out</a>
@@ -38,7 +38,21 @@
         </nav>
       
    
-    
+    <!-- Scrip custom-->
+        <script>
+          const queryStr = window.location.search;
+          const urlParams = new URLSearchParams(queryStr);
+          const nickname = urlParams.get("nickname")
+
+          let profileUpdate = document.getElementById("profileUpdate");
+          profileUpdate.addEventListener("click", (e) =>{
+            let params = `nickname=${nickname}`
+            window.location = "update-profile.html?"+ params;
+          })
+
+        </script>
+
+    <!-- Scrip custom-->
 
 
 

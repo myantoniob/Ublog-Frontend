@@ -32,17 +32,18 @@
                           <h2 class="text-center">Sign up </h2>
                           <form id="signupForm" class="row g-3 needs-validation" novalidate>
                             <div class="col-md-4">
-                              <label for="validationCustom01" class="form-label">Name </label>
-                              <input type="text" class="form-control" id="validationCustom01" value="" placeholder="Antonio Rb" required>
+                              <label for="signupName" class="form-label">Name </label>
+                              <input type="text" class="form-control" id="signupName" value="" placeholder="Antonio Rb" required>
                               <div class="valid-feedback">
                                 Looks good!
                               </div>
                             </div>
 
                             <div class="col-md-3">
-                              <label for="validationCustom04" class="form-label">Genero</label>
-                              <select class="form-select" id="validationCustom04" required>
-                                <option selected  value="M, F">M </option>
+                              <label for="signupGenero" class="form-label">Genero</label>
+                              <select class="form-select" id="signupGenero" required>
+                              <!-- <option selected  value="M"> </option> -->  
+                                <option>M</option>
                                 <option>F</option>
                               </select>
                               <div class="invalid-feedback">
@@ -51,10 +52,10 @@
                             </div>
 
                             <div class="col-md-4">
-                              <label for="validationCustomUsername" class="form-label">Username</label>
+                              <label for="signupUserName" class="form-label">Username</label>
                               <div class="input-group has-validation">
                                 <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+                                <input type="text" class="form-control" id="signupUserName" aria-describedby="inputGroupPrepend" required>
                                 <div class="invalid-feedback">
                                   Please choose a username.
                                 </div>
@@ -62,23 +63,23 @@
                             </div>
                             
                             <div class="col-md-4">
-                              <label for="validationCustom02" class="form-label">Correo electronico</label>
-                              <input type="email" class="form-control" id="validationCustom02" value="" required>
+                              <label for="signupCorreo" class="form-label">Correo electronico</label>
+                              <input type="email" class="form-control" id="signupCorreo" value="" required>
                               <div class="valid-feedback">
                                 Looks good!
                               </div>
                             </div>
                             
                             <div class="col-md-6 offset-md-1">
-                              <label for="validationCustom03" class="form-label">Constraseña</label>
-                              <input type="password" class="form-control" id="validationCustom03" required>
+                              <label for="signupPassword" class="form-label">Constraseña</label>
+                              <input type="password" class="form-control" id="signupPassword" required>
                               <div class="invalid-feedback">
                                 Please provide a valid password 
                               </div>
                             </div>
                       
                             <div class="col-12" >
-                              <button id="signup-button" class="btn btn-primary mt-4 offset-md-2" type="submit" style="width: 350px;">Sign up</button>
+                              <button id="signupbutton" class="btn btn-primary mt-4 offset-md-2" type="submit" style="width: 350px;">Sign up</button>
                             </div>
                           </form>
                             
@@ -89,6 +90,54 @@
           </div>
       </section>
       <!--/Formulario-->
+
+
+      <script>
+        let signupForm = document.getElementById("signupForm");
+        let signupName = document.getElementById("signupName");
+        let signupGenero = document.getElementById("signupGenero");
+        let signupUserName = document.getElementById("signupUserName");
+        let signupCorreo = document.getElementById("signupCorreo");
+        let signupPassword = document.getElementById("signupPassword");
+        let signupbutton = document.getElementById("signupbutton");
+
+        signupForm.addEventListener("submit", (e) =>{
+          e.preventDefault();
+        })
+
+        signupbutton.addEventListener("click", (e) => {
+          const newUser = {
+            name: signupName.value,
+            gender: signupGenero.value,
+            nickname: signupUserName.value,
+            email: signupCorreo.value,
+            password: signupPassword.value,
+          };
+          //console.log(newUser);
+
+          fetch("http://localhost:5000/signup", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(newUser),
+          })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.message){
+                  console.error(data);
+                } else {
+                  let params = `name=${data.name}`;
+                  params += `&gender=${data.gender}`;
+                  params += `&nickname=${data.nickname}`;
+                  params += `&email=${data.email}`;
+                  params += `&password=${data.password}`;
+                  window.location = "profile.html?"+params;
+                }
+              })
+        })
+
+      </script>
 
     <!-- Optional JavaScript; choose one of the two! -->
 

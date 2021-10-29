@@ -32,6 +32,107 @@
           </ul>
         </nav>
 
+        <section id="newPost" class="mt-5"  >
+          <div class="container">
+            <div class="row" >
+              <div class="col offset-md-2">
+
+                <div class="card" style="width: 45rem; height:350px" >
+                  <div class="card-body">
+
+                    <div class="mb-5">
+                      <h5 class="card-title  text-center ">Nuevo Post</h5>
+                    </div>
+                    
+                    <div class="row mb-5">
+                      <div class="col dropdown pt-4  offset-md-1" style="max-width: 150px;">
+                        <!-- <a style="background-color: #237cbf;" class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                          Type 
+                        </a>
+                      
+                        <ul id="newPostType" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                          <li><a class="dropdown-item" href="#">Imagen</a></li>
+                          <li><a class="dropdown-item" href="#">Video</a></li>                    
+                        </ul>   -->
+                        
+                        <select style="background-color: #237cbf; color: white" class="form-select" id="newPostType" required >
+                          <!-- <option selected  value="M"> </option> -->  
+                            <option>images</option>
+                            <option>videos</option>
+                          </select>
+
+                      </div>
+
+                      <div class="col input-group pt-4" style="max-width: 450px;">
+                        <span class="input-group-text" id="basic-addon3">URL</span>
+                        <input  type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                      </div>
+                    </div>
+
+                    <div class="row mb-5">
+                      <div class="col-7 offset-md-4">
+                        <input id="newPostCategory" class="form-control" type="text" placeholder="Escriba la categoria" aria-label="default input example">
+                      </div>  
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 offset-md-9"> 
+                        <button id="newPostButton" type="button" class="btn btn-outline-secondary">Publicar</button>
+                      </div>                      
+                    </div>
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+      <!-- Scrip personal-->
+        <script>
+
+          let today = new Date();
+          let dd = String(today.getDate()).padStart(2,'0');
+          let mm = String(today.getMonth()+1).padStart(2, '0');
+          let yy = today.getFullYear();
+          today = mm+'/'+dd+'/'+yy;
+
+          let newPostType = document.getElementById("newPostType");
+          let basicurl = document.getElementById("basic-url");
+          let newPostCategory = document.getElementById("newPostCategory");
+          let newPostButton = document.getElementById("newPostButton");
+
+          newPostButton.addEventListener("click", (e) =>{
+            // datos que I will send addEventListener("click", (e) =>{});
+            const credentials = {
+              images: newPostType.value,
+              url: basicurl.value,
+              date: today,
+              category: newPostCategory.value,
+            };
+            // Enviando los datos a la API fetch("link", {})
+            fetch("http://localhost:5000/release",{
+              method: "POST",
+              headers:{"content-type": "application/json"},
+              body: JSON.stringify(credentials),
+            })
+            
+            // Resiviendo los datos de la API
+              .then((response) => response.json())
+              .then((data) => {
+                  
+                  window.location = "all-posts.html?"
+              })
+
+          });
+
+          
+
+
+        </script>
+      <!-- /Scrip personal-->
+
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->

@@ -30,19 +30,19 @@
                     <div class="card" style="width: 35rem; height: 25rem">
                         <div class="card-body">
                           <h2 class="text-center">Actualizar datos </h2>
-                          <form class="row g-3 needs-validation" novalidate>
+                          <form id="updateForm" class="row g-3 needs-validation" novalidate>
                             <div class="col-md-4">
-                              <label for="validationCustom01" class="form-label">Name </label>
-                              <input type="text" class="form-control" id="validationCustom01" value="" placeholder="Antonio Rb" required>
+                              <label for="updateName" class="form-label">Name </label>
+                              <input type="text" class="form-control" id="updateName" value="" placeholder="Antonio Rb" required>
                               <div class="valid-feedback">
                                 Looks good!
                               </div>
                             </div>
 
                             <div class="col-md-3">
-                              <label for="validationCustom04" class="form-label">Genero</label>
-                              <select class="form-select" id="validationCustom04" required>
-                                <option selected  value="M, F">M </option>
+                              <label for="updateGenero" class="form-label">Genero</label>
+                              <select class="form-select" id="updateGenero" required>
+                                <option selected  value="">M </option>
                                 <option>F</option>
                               </select>
                               <div class="invalid-feedback">
@@ -51,10 +51,10 @@
                             </div>
 
                             <div class="col-md-4">
-                              <label for="validationCustomUsername" class="form-label">Username</label>
+                              <label for="updateNickname" class="form-label">Username</label>
                               <div class="input-group has-validation">
                                 <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+                                <input type="text" class="form-control" id="updateNickname" aria-describedby="inputGroupPrepend" required>
                                 <div class="invalid-feedback">
                                   Please choose a username.
                                 </div>
@@ -62,16 +62,16 @@
                             </div>
                             
                             <div class="col-md-4">
-                              <label for="validationCustom02" class="form-label">Correo electronico</label>
-                              <input type="email" class="form-control" id="validationCustom02" value="" required>
+                              <label for="updateEmail" class="form-label">Correo electronico</label>
+                              <input type="email" class="form-control" id="updateEmail" value="" required>
                               <div class="valid-feedback">
                                 Looks good!
                               </div>
                             </div>
                             
                             <div class="col-md-6 offset-md-1">
-                              <label for="validationCustom03" class="form-label">Constraseña</label>
-                              <input type="password" class="form-control" id="validationCustom03" required>
+                              <label for="updatePassword" class="form-label">Constraseña</label>
+                              <input type="password" class="form-control" id="updatePassword" required>
                               <div class="invalid-feedback">
                                 Please provide a valid password 
                               </div>
@@ -89,6 +89,60 @@
           </div>
       </section>
       <!--/Formulario-->
+
+      <!-- Script costum-->
+      <script>
+
+        const queryStr = window.location.search;
+        const urlParams = new URLSearchParams(queryStr);
+        const cnickname = urlParams.get("nickname")
+
+
+        let updateForm = document.getElementById("updateForm");
+        let updateName = document.getElementById("updateName");
+        let updateGenero = document.getElementById("updateGenero");
+        let updateNickname = document.getElementById("updateNickname");
+        let updateEmail = document.getElementById("updateEmail");
+        let updatePassword = document.getElementById("updatePassword");
+        let updateButton = document.getElementById("update-button");
+        updateForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+        });
+          
+        console.log(cnickname)
+        updateButton.addEventListener("click", (e) =>{
+          const credentials = {
+            cnickname: cnickname,
+            name: updateName.value,
+            gender: updateGenero.value,
+            nickname: updateNickname.value,
+            email: updateEmail.value,
+            password: updatePassword.value,
+          };
+          console.log(updateNickname.value)
+          fetch("http://localhost:5000/update", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(credentials),
+          })
+
+            .then((response) => response.json())
+            .then((data) => {
+              if(data.message){
+                console.error(data);
+              }else {
+                console.log("actualizado")
+              }
+            })
+        });
+
+
+
+      </script>
+
+      <!-- /Script costum-->
 
     <!-- Optional JavaScript; choose one of the two! -->
 
