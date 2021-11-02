@@ -17,6 +17,14 @@
           <a class="navbar-brand" href="#">
             <img src="assets/images/logo3.jpg" alt="logo de la mepresa">
           </a>
+
+          <ul class="nav nav-tabs offset-md-4">
+          
+            <li class="nav-item">   
+              <a  id="signuptologin" class="nav-link " aria-current="page" href="#" >Already have an account --> Log in </a>
+            </li>
+            
+          </ul>
         </div>
       </nav>
       <!--/ Nav bar -->
@@ -81,6 +89,18 @@
                             <div class="col-12" >
                               <button id="signupbutton" class="btn btn-primary mt-4 offset-md-2" type="submit" style="width: 350px;">Sign up</button>
                             </div>
+
+                            <div class="row mt-3">
+                              <div id="signupalert" class="col">
+                                
+                                <!-- <div class="alert alert-danger" role="alert">
+                                  A simple danger alert—check it out!
+                                </div> -->
+                                
+
+                              </div>
+
+                            </div>
                           </form>
                             
                         </div>
@@ -93,6 +113,11 @@
 
 
       <script>
+        let signuptologin = document.getElementById("signuptologin");
+        signuptologin.addEventListener("click", (e)=> {
+          window.location = "login.html?"
+        });
+
         let signupForm = document.getElementById("signupForm");
         let signupName = document.getElementById("signupName");
         let signupGenero = document.getElementById("signupGenero");
@@ -103,7 +128,7 @@
 
         signupForm.addEventListener("submit", (e) =>{
           e.preventDefault();
-        })
+        });
 
         signupbutton.addEventListener("click", (e) => {
           const newUser = {
@@ -117,16 +142,57 @@
 
           fetch("http://localhost:5000/signup", {
             method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
+            headers: {  "content-type": "application/json"},
             body: JSON.stringify(newUser),
           })
               .then((response) => response.json())
               .then((data) => {
-                if (data.message){
+                if (data.nick){
                   console.error(data);
-                } else {
+                  const contenedor = document.getElementById("signupalert");
+                  contenedor.innerHTML = "";
+
+                  const elementodiv = document.createElement("div");
+                  elementodiv.setAttribute("class","alert alert-warning alert-dismissible fade show");
+                  elementodiv.setAttribute("role", "alert");
+                  elementodiv.setAttribute("style", "color: #084298; background-color: #cfe2ff; border-color: #b6d4fe;")
+                  //elementodiv.style.backgroundColor = "#F56E62";
+                  elementodiv.innerText = "Usuario existente! :) ";
+
+                  const elementobt = document.createElement("button");
+                  elementobt.type = "button";
+                  elementobt.classList.add("btn-close");
+                  elementobt.setAttribute("data-bs-dismiss", "alert");
+                  elementobt.setAttribute("aria-label", "Close")
+                 
+
+                  elementodiv.appendChild(elementobt);
+                  contenedor.appendChild(elementodiv);
+
+                }else if(data.message){
+                  console.error(data);
+                  const contenedor = document.getElementById("signupalert");
+                  contenedor.innerHTML = "";
+
+                  const elementodiv = document.createElement("div");
+                  elementodiv.setAttribute("class","alert alert-warning alert-dismissible fade show");
+                  elementodiv.setAttribute("role", "alert");
+                  elementodiv.setAttribute("style", "color: #842029; background-color: #f8d7da; border-color: #f5c2c7;")
+                  //elementodiv.style.backgroundColor = "#F56E62";
+                  elementodiv.innerText = "Weak password!  :(";
+
+                  const elementobt = document.createElement("button");
+                  elementobt.type = "button";
+                  elementobt.classList.add("btn-close");
+                  elementobt.setAttribute("data-bs-dismiss", "alert");
+                  elementobt.setAttribute("aria-label", "Close")
+                 
+
+                  elementodiv.appendChild(elementobt);
+                  contenedor.appendChild(elementodiv);
+                   
+                } 
+                else {
                   let params = `name=${data.name}`;
                   params += `&gender=${data.gender}`;
                   params += `&nickname=${data.nickname}`;

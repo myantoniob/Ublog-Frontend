@@ -20,14 +20,14 @@
           <ul class="nav nav-tabs offset-md-3">
           
             <li class="nav-item">
-              <a class="nav-link " aria-current="page" href="#" >All Posts </a>
+              <a id="newpostallpost" class="nav-link " aria-current="page" href="#" >All Posts </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " aria-current="page" href="#" >Mis Posts </a>
+              <a id="newpostmypost" class="nav-link " aria-current="page" href="#" >Mis Posts </a>
             </li>
             
             <li class="nav-item">
-              <a class="nav-link" href="#">Perfil </a>
+              <a id="newpostperfil" class="nav-link" href="#">Perfil </a>
             </li>
           </ul>
         </nav>
@@ -46,15 +46,7 @@
                     
                     <div class="row mb-5">
                       <div class="col dropdown pt-4  offset-md-1" style="max-width: 150px;">
-                        <!-- <a style="background-color: #237cbf;" class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                          Type 
-                        </a>
-                      
-                        <ul id="newPostType" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                          <li><a class="dropdown-item" href="#">Imagen</a></li>
-                          <li><a class="dropdown-item" href="#">Video</a></li>                    
-                        </ul>   -->
-                        
+                                          
                         <select style="background-color: #237cbf; color: white" class="form-select" id="newPostType" required >
                           <!-- <option selected  value="M"> </option> -->  
                             <option>images</option>
@@ -92,6 +84,14 @@
       <!-- Scrip personal-->
         <script>
 
+          const queryStr = window.location.search;
+          const urlParams = new URLSearchParams(queryStr);
+          const name = urlParams.get("name");
+          const gender = urlParams.get("gender");
+          const nickname = urlParams.get("nickname");
+          const email = urlParams.get("email");
+          const password = urlParams.get("password");
+
           let today = new Date();
           let dd = String(today.getDate()).padStart(2,'0');
           let mm = String(today.getMonth()+1).padStart(2, '0');
@@ -106,7 +106,8 @@
           newPostButton.addEventListener("click", (e) =>{
             // datos que I will send addEventListener("click", (e) =>{});
             const credentials = {
-              images: newPostType.value,
+              nickname: nickname,
+              type: newPostType.value,
               url: basicurl.value,
               date: today,
               category: newPostCategory.value,
@@ -122,13 +123,50 @@
               .then((response) => response.json())
               .then((data) => {
                   
-                  window.location = "all-posts.html?"
+                let params = `name=${name}`;
+                params += `&gender=${gender}`;
+                params += `&nickname=${nickname}`;
+                params += `&email=${email}`;
+                params += `&password=${password}`;
+                window.location = "new-post.html?"+params;
+                
               })
 
           });
 
-          
+          let newpostperfil = document.getElementById("newpostperfil");
+          newpostperfil.addEventListener("click", (e) => {
+            let params = `name=${name}`;
+                params += `&gender=${gender}`;
+                params += `&nickname=${nickname}`;
+                params += `&email=${email}`;
+                params += `&password=${password}`;
+                window.location = "profile.html?"+params;
 
+          });
+
+          let newpostmypost = document.getElementById("newpostmypost");
+          newpostmypost.addEventListener("click", (e) =>{
+
+            let params = `name=${name}`;
+                params += `&gender=${gender}`;
+                params += `&nickname=${nickname}`;
+                params += `&email=${email}`;
+                params += `&password=${password}`;
+                window.location = "my-posts.html?"+params;
+
+          });
+
+          
+          let newpostallpost = document.getElementById("newpostallpost");
+          newpostallpost.addEventListener("click", (e) =>{
+            let params = `name=${name}`;
+                params += `&gender=${gender}`;
+                params += `&nickname=${nickname}`;
+                params += `&email=${email}`;
+                params += `&password=${password}`;
+                window.location = "all-posts.html?"+params;
+          });
 
         </script>
       <!-- /Scrip personal-->

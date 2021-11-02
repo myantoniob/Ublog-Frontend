@@ -44,3 +44,22 @@
 #profile img {
     width: 60px;
 }
+
+#profileimg{
+     
+     background-color: rgba(11, 31, 42, 1);
+    
+}
+
+#profileimg img{
+    width: 2000px;
+    height: 540px;
+}
+
+#localPost img{
+    height: 200px;
+}
+
+#allpublicaciones img{
+    height: 200px;
+}

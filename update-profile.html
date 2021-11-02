@@ -17,6 +17,15 @@
           <a class="navbar-brand" href="#">
             <img src="assets/images/logo3.jpg" alt="logo de la mepresa">
           </a>
+
+          <ul class="nav nav-tabs offset-md-4">
+          
+            <li class="nav-item">   
+              <a  id="gotoprofile" class="nav-link " aria-current="page" href="#" >Go to --> Profile </a>
+            </li>
+            
+          </ul>
+
         </div>
       </nav>
       <!--/ Nav bar -->
@@ -80,6 +89,14 @@
                             <div class="col-12" >
                               <button id="update-button" class="btn btn-primary mt-4 offset-md-2" type="submit" style="width: 350px;">Modificar</button>
                             </div>
+
+                            <div class="row mt-3">
+                              <div id="updatealert" class="col">
+                                  <!-- codigo des de el JS-->
+                              </div>
+                             
+                            </div>
+
                           </form>
                             
                         </div>
@@ -94,9 +111,12 @@
       <script>
 
         const queryStr = window.location.search;
-        const urlParams = new URLSearchParams(queryStr);
-        const cnickname = urlParams.get("nickname")
-
+          const urlParams = new URLSearchParams(queryStr);
+          const name = urlParams.get("name");
+          const gender = urlParams.get("gender");
+          const nickname = urlParams.get("nickname");
+          const email = urlParams.get("email");
+          const password = urlParams.get("password");
 
         let updateForm = document.getElementById("updateForm");
         let updateName = document.getElementById("updateName");
@@ -109,36 +129,86 @@
           e.preventDefault();
         });
           
-        console.log(cnickname)
         updateButton.addEventListener("click", (e) =>{
           const credentials = {
-            cnickname: cnickname,
+            cnickname: nickname,
             name: updateName.value,
             gender: updateGenero.value,
             nickname: updateNickname.value,
             email: updateEmail.value,
             password: updatePassword.value,
           };
-          console.log(updateNickname.value)
+          
           fetch("http://localhost:5000/update", {
             method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
+            headers: { "content-type": "application/json"},
             body: JSON.stringify(credentials),
           })
 
             .then((response) => response.json())
             .then((data) => {
-              if(data.message){
-                console.error(data);
-              }else {
-                console.log("actualizado")
+              if(data.user){
+                console.error(data)
+                const contenedor = document.getElementById("updatealert");
+                contenedor.innerHTML = "";
+
+                const elementodiv = document.createElement("div");
+                  elementodiv.setAttribute("class","alert alert-warning alert-dismissible fade show");
+                  elementodiv.setAttribute("role", "alert");
+                  elementodiv.setAttribute("style", "color: #084298; background-color: #cfe2ff; border-color: #b6d4fe;")                 
+                  elementodiv.innerText = "Usuaio ya existe ! :/ ";
+
+                  const elementobt = document.createElement("button");
+                  elementobt.type = "button";
+                  elementobt.classList.add("btn-close");
+                  elementobt.setAttribute("data-bs-dismiss", "alert");
+                  elementobt.setAttribute("aria-label", "Close")
+
+                  elementodiv.appendChild(elementobt);
+                  contenedor.appendChild(elementodiv);
+
+              }else if(data.passd){
+                console.error(data)
+                const contenedor = document.getElementById("updatealert");
+                contenedor.innerHTML = "";
+
+                const elementodiv = document.createElement("div");
+                  elementodiv.setAttribute("class","alert alert-warning alert-dismissible fade show");
+                  elementodiv.setAttribute("role", "alert");
+                  elementodiv.setAttribute("style", "color: #084298; background-color: #cfe2ff; border-color: #b6d4fe;")                 
+                  elementodiv.innerText = "Weak password ! :( ";
+
+                  const elementobt = document.createElement("button");
+                  elementobt.type = "button";
+                  elementobt.classList.add("btn-close");
+                  elementobt.setAttribute("data-bs-dismiss", "alert");
+                  elementobt.setAttribute("aria-label", "Close")
+
+                  elementodiv.appendChild(elementobt);
+                  contenedor.appendChild(elementodiv);
+              }else if(data.not){
+                window.location = "index.html"
+
+              }else{
+                let params = `name=${data.name}`;
+                  params += `&gender=${data.gender}`;
+                  params += `&nickname=${data.nickname}`;
+                  params += `&email=${data.email}`;
+                  params += `&password=${data.password}`;
+                  window.location = "profile.html?"+ params;
               }
             })
         });
 
-
+        let gotoprofile = document.getElementById("gotoprofile");
+        gotoprofile.addEventListener("click", (e) =>{
+          let params = `name=${name}`;
+                  params += `&gender=${gender}`;
+                  params += `&nickname=${nickname}`;
+                  params += `&email=${email}`;
+                  params += `&password=${password}`;
+                  window.location = "profile.html?"+ params;
+        })
 
       </script>
 

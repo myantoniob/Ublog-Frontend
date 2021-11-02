@@ -20,52 +20,106 @@
           <ul class="nav nav-tabs offset-md-3">
           
             <li class="nav-item">
-              <a class="nav-link " aria-current="page" href="#" >New post  </a>
+              <a id="allPostNewPost" class="nav-link " aria-current="page" href="#" >New post  </a>
             </li>
             
             <li class="nav-item">
-              <a class="nav-link" href="#">Perfil </a>
+              <a id="allPostPerfil" class="nav-link" href="#">Perfil </a>
             </li>
           </ul>
         </nav>
     <!-- /Navbar -->
     
     <!-- Publicaciones-->
-       <div class="d-flex flex-column" id="allpublicaciones"> </div> 
+    <section id="allposts">
+      <div class="container">
+        <div id="allpublicaciones" class="row pt-5 pb-5">  
+                                                  
+        </div>
+      </div>
+    </section>
     <!-- /Publicaciones-->    
 
 
     <!-- Sript personalizadop -->
         <script>
-          let allpublicaciones = document.getElementById("allpublicaciones");
+          const queryStr = window.location.search;
+          const urlParams = new URLSearchParams(queryStr);
+          const name = urlParams.get("name");
+          const gender = urlParams.get("gender");
+          const nickname = urlParams.get("nickname");
+          const email = urlParams.get("email");
+          const password = urlParams.get("password");
 
-          fetch("http://localhost:5000/release",{
-            method: "GET"
-          })
+
+          
+          let allpublicaciones = document.getElementById("allpublicaciones");
+          fetch("http://localhost:5000/release", {method: "GET"})
           .then((response) => response.json())
           .then((data) => {
             allpublicaciones.innerHTML = "";
-            data.forEach((publicacion) =>{
-              let card = document.createElement("div");
-							card.className = "card m-2";
-              card.id = publicacion.category;
+            data.forEach((publicacion) => {
+              let div_1 = document.createElement("div");
+              div_1.className = "col-3 mb-5";
 
-              let cardBody = document.createElement("div");
-							cardBody.className = "card-body";
-              let medicineName = document.createElement("h5");
-							medicineName.className = "card-title";
-							medicineName.innerText = publicacion.category;
+              let div_2 = document.createElement("div");
+              div_2.className = "card";
 
-              cardBody.append(medicineName);
-              card.append(cardBody);
-              allpublicaciones.append(card);
+              let typo = "";
+              console.log(publicacion["type"] == "videos")
+              if(publicacion["type"] == "videos"){
+                typo = document.createElement("iframe");
+                typo.setAttribute("width","260px");
+                typo.setAttribute("height", "200px");
+                typo.src = publicacion.url;
+                typo.setAttribute("title", "YouTube video player");
+                typo.setAttribute("frameborder", "0");
+                typo.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
+                //typo.setAttribute("allowfullscreen");
 
-
-            })
             
-          })
+              }else {
+                typo = document.createElement("img");
+                typo.className = "card-img-top";
+                typo.src = publicacion.url;
+              }
+              
 
-      
+              let div_3 = document.createElement("div");
+              div_3.className = "card-body";
+
+              let anchor = document.createElement("a");
+              anchor.className = "btn btn-primary";
+              anchor.innerText = publicacion.category + "---" +publicacion.date;
+
+              div_3.appendChild(anchor);
+              div_2.appendChild(typo);
+              div_2.appendChild(div_3);
+              div_1.appendChild(div_2);
+              allpublicaciones.appendChild(div_1);
+			
+            })    
+          }) 
+
+          let allPostNewPost = document.getElementById("allPostNewPost");
+          allPostNewPost.addEventListener("click", (e)=> {
+            let params = `name=${name}`;
+            params += `&gender=${gender}`;
+            params += `&nickname=${nickname}`;
+            params += `&email=${email}`;
+            params += `&password=${password}`;
+            window.location = "new-post.html?"+params;
+          });
+
+          let allPostPerfil = document.getElementById("allPostPerfil");
+          allPostPerfil.addEventListener("click", (e)=> {
+            let params = `name=${name}`;
+            params += `&gender=${gender}`;
+            params += `&nickname=${nickname}`;
+            params += `&email=${email}`;
+            params += `&password=${password}`;
+            window.location = "profile.html?"+params;
+          });
 
         </script>
     <!-- /Sript personalizadop -->

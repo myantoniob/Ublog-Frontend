@@ -20,35 +20,95 @@
           <ul class="nav nav-tabs offset-md-4">
           
             <li class="nav-item">
-              <a  class="nav-link " aria-current="page" href="#" >All Posts </a>
+              <a id="profileallpost" class="nav-link " aria-current="page" href="#" >All Posts </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " aria-current="page" href="#" >Mis posts</a>
+              <a id="profilemypost" class="nav-link " aria-current="page" href="#" >Mis posts</a>
             </li>
             <li class="nav-item">
-              <a  class="nav-link" href="#">New Post</a>
+              <a id="profilenewpost" class="nav-link" href="#">New Post</a>
             </li>
             <li class="nav-item">
               <a id="profileUpdate" class="nav-link" href="#">Actualizar datos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Log out</a>
+              <a id="profilelogout" class="nav-link" href="#">Log out</a>
             </li>
           </ul>
         </nav>
+
+        <section id="profileimg" >
+          <div class="container" >
+            <div class="row"> 
+              <img  src="assets/images/portada.png" alt="espacio verde">
+
+            </div>
+
+          </div>
+        </section>
       
    
     <!-- Scrip custom-->
         <script>
           const queryStr = window.location.search;
           const urlParams = new URLSearchParams(queryStr);
-          const nickname = urlParams.get("nickname")
+          const name = urlParams.get("name");
+          const gender = urlParams.get("gender");
+          const nickname = urlParams.get("nickname");
+          const email = urlParams.get("email");
+          const password = urlParams.get("password");
+
+
+          let profileallpost = document.getElementById("profileallpost");
+          profileallpost.addEventListener("click", (e) => {
+            let params = `name=${name}`;
+                  params += `&gender=${gender}`;
+                  params += `&nickname=${nickname}`;
+                  params += `&email=${email}`;
+                  params += `&password=${password}`;
+            window.location = "all-posts.html?"+params;
+          });
+
+
+          let profilemypost = document.getElementById("profilemypost");
+          profilemypost.addEventListener("click", (e) => {
+            let params = `name=${name}`;
+                  params += `&gender=${gender}`;
+                  params += `&nickname=${nickname}`;
+                  params += `&email=${email}`;
+                  params += `&password=${password}`;
+            window.location = "my-posts.html?"+params;
+          });
+
+          
+          let profilenewpost = document.getElementById("profilenewpost");
+          profilenewpost.addEventListener("click", (e)=>{
+            let params = `name=${name}`;
+                  params += `&gender=${gender}`;
+                  params += `&nickname=${nickname}`;
+                  params += `&email=${email}`;
+                  params += `&password=${password}`;
+            window.location = "new-post.html?"+params;  
+          });
+
 
           let profileUpdate = document.getElementById("profileUpdate");
           profileUpdate.addEventListener("click", (e) =>{
-            let params = `nickname=${nickname}`
+            let params = `name=${name}`;
+                  params += `&gender=${gender}`;
+                  params += `&nickname=${nickname}`;
+                  params += `&email=${email}`;
+                  params += `&password=${password}`;
             window.location = "update-profile.html?"+ params;
-          })
+          });
+
+
+          let profilelogout = document.getElementById("profilelogout");
+          profilelogout.addEventListener("click", (e) =>{
+            window.location = "index.html"
+          });
+
+          
 
         </script>
 

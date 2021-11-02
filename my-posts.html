@@ -20,18 +20,127 @@
           <ul class="nav nav-tabs offset-md-3">
           
             <li class="nav-item">
-              <a class="nav-link " aria-current="page" href="#" >All Posts </a>
+              <a id="myPostAllPost" class="nav-link " aria-current="page" href="#" >All Posts </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " aria-current="page" href="#" >Nuevo post  </a>
+              <a id="myPostNuevoPost" class="nav-link " aria-current="page" href="#" >Nuevo post  </a>
             </li>
             
             <li class="nav-item">
-              <a class="nav-link" href="#">Perfil </a>
+              <a id="myPostPerfil" class="nav-link" href="#">Perfil </a>
             </li>
           </ul>
         </nav>
 
+         <!-- Publicaciones-->
+        <section id="mypost">
+          <div class="container">
+            <div id="localPost" class="row pt-5 pb-5">  
+                                                      
+            </div>
+          </div>
+        </section>
+       <!-- /Publicaciones-->    
+   
+
+        <!-- Script-->
+        <script>
+          const queryStr = window.location.search;
+          const urlParams = new URLSearchParams(queryStr);
+          const name = urlParams.get("name");
+          const gender = urlParams.get("gender");
+          const nickname = urlParams.get("nickname");
+          const email = urlParams.get("email");
+          const password = urlParams.get("password");
+
+
+          let localPost = document.getElementById("localPost");
+          fetch("http://localhost:5000/myRelease", {
+            method: "POST",
+            headers: {"content-type": "application/json"},
+            body: JSON.stringify({"nickname": nickname}),
+          })
+          .then((response) => response.json())
+          .then((data) => {
+            localPost.innerHTML = "";
+            data.forEach((publicacion) => {
+              let div_1 = document.createElement("div");
+              div_1.className = "col-3 mb-5";
+
+              let div_2 = document.createElement("div");
+              div_2.className = "card";
+
+              let typo = "";
+              console.log(publicacion["type"] == "videos")
+              if(publicacion["type"] == "videos"){
+                typo = document.createElement("iframe");
+                typo.setAttribute("width","260px");
+                typo.setAttribute("height", "200px");
+                typo.src = publicacion.url;
+                typo.setAttribute("title", "YouTube video player");
+                typo.setAttribute("frameborder", "0");
+                typo.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
+                //typo.setAttribute("allowfullscreen");
+
+            
+              }else {
+                typo = document.createElement("img");
+                typo.className = "card-img-top";
+                typo.src = publicacion.url;
+              }
+              
+
+              let div_3 = document.createElement("div");
+              div_3.className = "card-body";
+
+              let anchor = document.createElement("a");
+              anchor.className = "btn btn-primary";
+              anchor.innerText = publicacion.category + "---" +publicacion.date;
+
+              div_3.appendChild(anchor);
+              div_2.appendChild(typo);
+              div_2.appendChild(div_3);
+              div_1.appendChild(div_2);
+              localPost.appendChild(div_1);
+			
+            })    
+          }) 
+
+
+
+          let myPostAllPost = document.getElementById("myPostAllPost");
+          myPostAllPost.addEventListener("click", (e)=> {
+            let params = `name=${name}`;
+                params += `&gender=${gender}`;
+                params += `&nickname=${nickname}`;
+                params += `&email=${email}`;
+                params += `&password=${password}`;
+                window.location = "all-posts.html?"+params;
+
+          });
+
+          let myPostNuevoPost = document.getElementById("myPostNuevoPost");
+          myPostNuevoPost.addEventListener("click", (e)=> {
+            let params = `name=${name}`;
+            params += `&gender=${gender}`;
+            params += `&nickname=${nickname}`;
+            params += `&email=${email}`;
+            params += `&password=${password}`;
+            window.location = "new-post.html?"+params;
+          });
+
+          let myPostPerfil = document.getElementById("myPostPerfil");
+          myPostPerfil.addEventListener("click", (e)=> {
+            let params = `name=${name}`;
+            params += `&gender=${gender}`;
+            params += `&nickname=${nickname}`;
+            params += `&email=${email}`;
+            params += `&password=${password}`;
+            window.location = "profile.html?"+params;
+          });
+
+        </script>
+        <!-- /Script-->
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
