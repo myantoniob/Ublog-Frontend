@@ -33,9 +33,10 @@
     <!-- Publicaciones-->
     <section id="allposts">
       <div class="container">
-        <div id="allpublicaciones" class="row pt-5 pb-5">  
-                                                  
-        </div>
+        <div  id="allpublicaciones" class="row pt-5 pb-5">  
+          
+         
+        </div >
       </div>
     </section>
     <!-- /Publicaciones-->    
@@ -51,9 +52,10 @@
           const email = urlParams.get("email");
           const password = urlParams.get("password");
 
+          cargarTados();
+          function cargarTados(){
 
-          
-          let allpublicaciones = document.getElementById("allpublicaciones");
+            let allpublicaciones = document.getElementById("allpublicaciones");
           fetch("http://localhost:5000/release", {method: "GET"})
           .then((response) => response.json())
           .then((data) => {
@@ -66,7 +68,7 @@
               div_2.className = "card";
 
               let typo = "";
-              console.log(publicacion["type"] == "videos")
+              
               if(publicacion["type"] == "videos"){
                 typo = document.createElement("iframe");
                 typo.setAttribute("width","260px");
@@ -86,13 +88,51 @@
               
 
               let div_3 = document.createElement("div");
-              div_3.className = "card-body";
+              div_3.className = "card-body row";
 
-              let anchor = document.createElement("a");
-              anchor.className = "btn btn-primary";
-              anchor.innerText = publicacion.category + "---" +publicacion.date;
+              let col_1 = document.createElement("div");
+              col_1.className = "col-5";
 
-              div_3.appendChild(anchor);
+              let anchor = document.createElement("button");
+              anchor.setAttribute("type", "button");
+              anchor.id = publicacion["id"];
+              anchor.className = "btn btn-light ps-1 pe-1";
+              anchor.innerText = "Like";
+
+              let span = document.createElement("span");
+              span.className = "badge bg-secondary ms-2";
+              span.innerText = publicacion["cantidad"];
+               console.log("Antes "+publicacion["cantidad"]); 
+              let col_2 = document.createElement("div");
+              col_2.className = "col-7";
+
+              let label_1 = document.createElement("label");
+              label_1.innerText = publicacion["nickname"]+"- ["+publicacion["date"]+"]";
+
+
+              //---------------------
+              console.log(publicacion["id"]);
+             
+              anchor.addEventListener("click", (e)=> {
+                fetch("http://localhost:5000/increment", {
+                  method: "POST",
+                  headers: {"content-type": "application/json"},
+                  body: JSON.stringify({"id": publicacion["id"],"nickname": publicacion["nickname"]}),
+                })
+                .then((response) => response.json())
+                .then((data) => cargarTados())
+              });
+
+              //---------------------
+
+
+              anchor.appendChild(span);
+              col_1.appendChild(anchor);
+              col_2.appendChild(label_1);
+              
+              div_3.appendChild(col_1);
+              div_3.appendChild(col_2);
+          
               div_2.appendChild(typo);
               div_2.appendChild(div_3);
               div_1.appendChild(div_2);
@@ -100,6 +140,10 @@
 			
             })    
           }) 
+
+          }
+          
+          
 
           let allPostNewPost = document.getElementById("allPostNewPost");
           allPostNewPost.addEventListener("click", (e)=> {

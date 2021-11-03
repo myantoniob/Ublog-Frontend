@@ -78,12 +78,18 @@
 
       <!-- Script personal-->
       <script>
+        let signuptologin = document.getElementById("signuptologin");
+
         let loginForm = document.getElementById("loginForm");
         let loginnickname = document.getElementById("loginNickname");
         let loginPassword = document.getElementById("loginPassword");
         let loginButton = document.getElementById("login-button");
         loginForm.addEventListener("submit", (e) =>{
           e.preventDefault();
+        });
+
+        signuptologin.addEventListener("click", (e)=> {
+          window.location = "signup.html"
         });
 
         loginButton.addEventListener("click", (e) =>{

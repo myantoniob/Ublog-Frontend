@@ -22,7 +22,7 @@
             <li class="nav-item">
               <a id="myPostAllPost" class="nav-link " aria-current="page" href="#" >All Posts </a>
             </li>
-            <li class="nav-item">
+            <li  class="nav-item">
               <a id="myPostNuevoPost" class="nav-link " aria-current="page" href="#" >Nuevo post  </a>
             </li>
             
@@ -89,15 +89,36 @@
                 typo.src = publicacion.url;
               }
               
-
               let div_3 = document.createElement("div");
-              div_3.className = "card-body";
+              div_3.className = "card-body row";
 
-              let anchor = document.createElement("a");
-              anchor.className = "btn btn-primary";
-              anchor.innerText = publicacion.category + "---" +publicacion.date;
+              let col_1 = document.createElement("div");
+              col_1.className = "col-5";
 
-              div_3.appendChild(anchor);
+              let anchor = document.createElement("button");
+              anchor.setAttribute("type", "button");
+              anchor.className = "btn btn-light ps-1 pe-1";
+              anchor.innerText = "Like";
+
+              let span = document.createElement("span");
+              span.className = "badge bg-secondary ms-2";
+              span.innerText = publicacion["cantidad"];
+              
+              let col_2 = document.createElement("div");
+              col_2.className = "col-7";
+
+              let label_1 = document.createElement("label");
+              label_1.innerText = publicacion["nickname"]+" - ["+publicacion["date"]+"]";
+
+
+
+              anchor.appendChild(span);
+              col_1.appendChild(anchor);
+              col_2.appendChild(label_1);
+              
+              div_3.appendChild(col_1);
+              div_3.appendChild(col_2);
+          
               div_2.appendChild(typo);
               div_2.appendChild(div_3);
               div_1.appendChild(div_2);
