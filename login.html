@@ -149,7 +149,16 @@
                   elementodiv.appendChild(elementobt);
                   contenedor.appendChild(elementodiv);
                 
-              } else {
+              } else if(data.admin){
+                let params = `name=${data.name}`;
+                  params += `&gender=${data.gender}`;
+                  params += `&nickname=${data.nickname}`;
+                  params += `&email=${data.email}`;
+                  params += `&password=${data.password}`;
+                window.location = "admin.html?" + params;
+                
+              } 
+              else{
                 let params = `name=${data.name}`;
                   params += `&gender=${data.gender}`;
                   params += `&nickname=${data.nickname}`;

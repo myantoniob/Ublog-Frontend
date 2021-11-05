@@ -63,3 +63,24 @@
 #allpublicaciones img{
     height: 200px;
 }
+
+#adminsudo {
+    height: 75px;
+}
+
+#adminsudo a {
+    color: rgb(172, 162, 162);
+}
+
+#adminsudo img {
+    width: 60px;
+}
+
+#admincol {
+    border: #237cbf;
+}
+
+#maincargar .card {
+    width: 46rem;
+    height: 20rem;
+}
