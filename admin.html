@@ -20,10 +20,10 @@
         <ul class="nav nav-tabs offset-md-3">
         
           <li class="nav-item">
-            <a id="myPostAllPost" class="nav-link " aria-current="page" href="#" >Cargar Files </a>
+            <a id="myPostAllPost" class="nav-link " aria-current="page" href="#" >Visualizacion</a>
           </li>
           <li  class="nav-item">
-            <a id="myPostNuevoPost" class="nav-link " aria-current="page" href="#" >All users  </a>
+            <a id="myPostNuevoPost" class="nav-link " aria-current="page" href="#" >Reportes</a>
           </li>
           
           <li class="nav-item">
@@ -40,10 +40,10 @@
 
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="#">Usuarios</a>
+                      <a id="adminUsuarios" class="nav-link active" aria-current="page" href="#">Usuarios</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link " href="#">Publicaciones</a>
+                      <a id="adminPublicaciones" class="nav-link " href="#">Publicaciones</a>
                     </li>
                   </ul>
 
@@ -59,10 +59,16 @@
            <div class="col-8 offset-md-2">
 
             <div class="card">
-              <div class="card-body pt-5">
-                <button type="button" class="btn btn-secondary btn-lg mt-5 offset-md-2">Seleccionar archivos</button>
+              <div id="adminBotones" class="card-body pt-5">
+                <div id="adminBotonesuno" class="row">
+                </div>
+
+                <div id="adminBotonesdos" class="row">
+                </div>
+              
+                <!-- <button type="button" class="btn btn-secondary btn-lg mt-5 offset-md-2">Seleccionar archivos</button> 
                 <button type="button" class="btn btn-secondary btn-lg mt-5 ms-5" data-bs-toggle="modal" data-bs-target="#adminCargardatos">Cargar Publicaciones</button>
-            
+             -->
               </div>
             </div>
 
@@ -74,7 +80,7 @@
 
        <!-- Cuerpo -->
 
-       <!-- Modal -->
+       <!-- Modal #1 -->
        <div class="modal" tabindex="-1" id="adminCargardatos" >
         <div class="modal-dialog">
           <div class="modal-content">
@@ -153,12 +159,265 @@
           </div>
         </div>
       </div>
-       <!-- /Modal -->
+       <!-- /Modal #1-->
+       <!-- Modal #2-->
 
+       <div class="modal" tabindex="-1" id="cargarPublicaciones" >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+                  <div class="card-body">
+                    <div class="mb-5">
+                      <h5 class="card-title  text-center ">Nuevo Post</h5>
+                    </div>
+                    <div class="row mb-5">
+                      <div class="col dropdown pt-4  offset-md-1" style="max-width: 150px;">
+                                          
+                        <select style="background-color: #237cbf; color: white" class="form-select" id="newPostType" required >
+                          <!-- <option selected  value="M"> </option> -->  
+                            <option>images</option>
+                            <option>videos</option>
+                          </select>
+
+                      </div>
+                      <div class="col input-group pt-4" style="max-width: 450px;">
+                        <span class="input-group-text" id="basic-addon3">URL</span>
+                        <input  type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                      </div>
+                    </div>
+
+                    <div class="row mb-5">
+                      <div class="col-7 offset-md-4">
+                        <input id="newPostCategory" class="form-control" type="text" placeholder="Escriba la categoria" aria-label="default input example">
+                      </div>  
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 offset-md-9"> 
+                        <button id="newPostButton" type="button" class="btn btn-outline-secondary">Publicar</button>
+                      </div>                      
+                    </div>
+                  </div>
+            
+          </div>
+          </div>
+        </div>
+      </div>
+
+
+       <!-- /Modal #2-->
       <!-- Script -->
 
       <script>
+        // Esto obtine los datos  para ADMIN desde LOGIN 
+          const queryStr = window.location.search;
+          const urlParams = new URLSearchParams(queryStr);
+          const name = urlParams.get("name");
+          const gender = urlParams.get("gender");
+          const nickname = urlParams.get("nickname");
+          const email = urlParams.get("email");
+          const password = urlParams.get("password");
 
+          // Para crear una fecha dd/mm/yy de hoy
+          let today = new Date();
+          let dd = String(today.getDate()).padStart(2,'0');
+          let mm = String(today.getMonth()+1).padStart(2, '0');
+          let yy = today.getFullYear();
+          today = dd+'/'+mm+'/'+yy;
+
+        // Carga los botones para USUARIOS
+          function user_botones(){
+            let adminBotonesuno = document.getElementById("adminBotonesuno");
+            adminBotonesuno.innerHTML = "";
+
+            let adminBotonesdos = document.getElementById("adminBotonesdos");
+            adminBotonesdos.innerHTML = "";
+
+              let choosefile = document.createElement("input");
+              choosefile.setAttribute("type","file");
+              choosefile.id = "usersFileInput";
+              adminBotonesuno.appendChild(choosefile);
+
+              
+
+              let cargar_user = document.createElement("label");
+              cargar_user.setAttribute("type", "button");
+              cargar_user.id = "usuariofilejson";
+              cargar_user.className = "btn btn-secondary btn-lg mt-5 offset-md-2";
+              cargar_user.innerText = "Cargar Archivo";
+              adminBotonesdos.appendChild(cargar_user);
+
+              let user_boton = document.createElement("button");
+              user_boton.setAttribute("type", "button");
+              user_boton.id = "usuasiocadauno";
+              user_boton.className = "btn btn-secondary btn-lg mt-5 ms-5";
+              user_boton.setAttribute("data-bs-toggle", "modal");
+              user_boton.setAttribute("data-bs-target", "#adminCargardatos");
+              user_boton.innerText = "Cargar Usuarios";
+              adminBotonesdos.appendChild(user_boton);
+
+              
+          } 
+          
+          //Carga los botones para PUBLICACIONES
+          function public_botones(){
+            let adminBotonesuno = document.getElementById("adminBotonesuno");
+            adminBotonesuno.innerHTML = "";
+
+            let adminBotonesdos = document.getElementById("adminBotonesdos");
+            adminBotonesdos.innerHTML = "";
+
+            let choosefile = document.createElement("input");
+              choosefile.setAttribute("type","file");
+              choosefile.id = "usersFileInputyes";
+              adminBotonesuno.appendChild(choosefile);
+
+            let cargar_user = document.createElement("label");
+            cargar_user.setAttribute("type", "button");
+            cargar_user.id = "usuariofilejsonyes";
+            cargar_user.className = "btn btn-secondary btn-lg mt-5 offset-md-2";
+            cargar_user.innerText = "Cargar Archivo";
+            adminBotonesdos.appendChild(cargar_user);
+
+
+
+            let user_boton = document.createElement("button");
+            user_boton.setAttribute("type", "button");
+            user_boton.id = "publiccadauno";
+            user_boton.className = "btn btn-secondary btn-lg mt-5 ms-5";
+            user_boton.setAttribute("data-bs-toggle", "modal");
+            user_boton.setAttribute("data-bs-target", "#cargarPublicaciones");
+            user_boton.innerText = "Cargar Publicaciones";
+            adminBotonesdos.appendChild(user_boton);
+          }
+          // Los primeros botones por default
+          
+         // user_botones();
+
+          //Para activar las pestañas de USUARIOS y PUBLICACIONES
+          let adminUsuarios = document.getElementById("adminUsuarios");
+          let adminPublicaciones = document.getElementById("adminPublicaciones");
+
+          adminUsuarios.addEventListener("click", (e)=> {
+            
+            adminPublicaciones.className = "nav-link";
+            adminUsuarios.className = "nav-link active";
+            user_botones();
+
+            let usersFileInput = document.getElementById("usersFileInput");
+            let usuariofilejson = document.getElementById("usuariofilejson");
+    
+            usuariofilejson.addEventListener("click", (e)=> {
+              
+                let file = usersFileInput.files[0];
+                
+                let reader = new FileReader();
+                
+                
+                reader.readAsText(file);
+                
+                reader.onload = () => {
+                  let data = JSON.parse(reader.result);
+                  data.forEach( element => {
+                    
+                    const user = {
+                      name: element.name,
+                      gender: element.gender,
+                      nickname: element.username,
+                      email: element.email,
+                      password: element.password
+                    }
+    
+                    fetch("http://localhost:5000/signup", {
+                      method: "POST",
+                      headers: {"content-type": "application/json"},
+                      body: JSON.stringify(user),
+                    })
+                      .then(((respuesta) => respuesta.json()))
+                      .then((datos) => {
+                        console.log("all done");
+                      })
+                      
+                  });
+                  
+                }
+            });
+          });
+
+          
+          adminPublicaciones.addEventListener("click", (e)=> {
+            adminPublicaciones.className = "nav-link active";
+            adminUsuarios.className = "nav-link";
+            public_botones();
+
+
+                let publicFileInput = document.getElementById("usersFileInputyes");
+                let publicfilejson = document.getElementById("usuariofilejsonyes");
+                publicfilejson.addEventListener("click", (e)=> {
+                  
+                let file = publicFileInput.files[0];
+                let reader = new FileReader();
+
+                reader.readAsText(file);
+                reader.onload = () => {
+                  let data = JSON.parse(reader.result);
+
+                  // es para las IMAGENES
+                  data.images.forEach(element => {
+                      const puimagenes = {
+                        nickname: nickname,
+                        type: "images",
+                        url: element.url,
+                        date: element.date,
+                        category: element.category
+                      }
+
+                      fetch("http://localhost:5000/release", {
+                        method: "POST",
+                        headers: {"content-type": "application/json"},
+                        body: JSON.stringify(puimagenes),
+                      })
+                      .then(((respuesta) => respuesta.json()))
+                      .then((datos) => {
+                        console.log("images done");
+                      })
+                  });
+
+                  // es para los VIDEOS
+                  data.videos.forEach(element => {
+                    const puvideos = {
+                      nickname: nickname,
+                      type: "videos",
+                      url: element.url,
+                      date: element.date,
+                      category: element.category
+                    }
+                    fetch("http://localhost:5000/release", {
+                      method: "POST",
+                      headers: {"content-type": "application/json"},
+                      body: JSON.stringify(puvideos),
+                    })
+                    .then(((respuesta) => respuesta.json()))
+                    .then((datos) => {
+                      console.log("videos done");
+                    })
+
+                  });
+
+
+                }
+              });
+
+
+          });
+          
+
+        // Esto es para cargar los usuario desde el ADMIN
         let signupForm = document.getElementById("signupForm");
         let signupName = document.getElementById("signupName");
         let signupGenero = document.getElementById("signupGenero");
@@ -242,11 +501,106 @@
                 params += `&password=${data.password}`;
                 window.location = "admin.html?"+params;
               }
-
               
             })
 
         });
+
+        //Carga masica USUARIOS desde ADMIN
+       // let usersFileInput = document.getElementById("usersFileInput");
+     //   let usuariofilejson = document.getElementById("usuariofilejson");
+
+      //  usuariofilejson.addEventListener("click", (e)=> {
+          
+        //    let file = usersFileInput.files[0];
+            
+        //    let reader = new FileReader();
+            
+            
+         //   reader.readAsText(file);
+            
+          //  reader.onload = () => {
+           //   let data = JSON.parse(reader.result);
+           //   data.forEach( element => {
+                
+           //     const user = {
+           //       name: element.name,
+            //      gender: element.gender,
+             //     nickname: element.username,
+             //     email: element.email,
+             //     password: element.password
+              //  }
+
+             //   fetch("http://localhost:5000/signup", {
+             //     method: "POST",
+             //     headers: {"content-type": "application/json"},
+             //     body: JSON.stringify(user),
+             //   })
+             //     .then(((respuesta) => respuesta.json()))
+              //    .then((datos) => {
+                //    console.log("all done");
+               //   })
+                  
+           //   });
+              
+          //  }
+        //});
+
+        
+        //Carga masiva de PUBLICACIONES desde admin
+        
+        // let publicFileInput = document.getElementById("usersFileInput");
+        //let publicfilejson = document.getElementById("usuariofilejson");
+       // publicfilejson.addEventListener("click", (e)=> {
+        //  let file = publicFileInput.files[0];
+        //  let reader = new FileReader();
+
+       //   reader.readAsText(file);
+        //  reader.onload = () => {
+         //   let data = JSON.parse(reader.result);
+         //   console.log(data);
+         // }
+       // }); 
+
+
+
+        //Para cargar publicaciones desde ADMIN
+          let newPostType = document.getElementById("newPostType");
+          let basicurl = document.getElementById("basic-url");
+          let newPostCategory = document.getElementById("newPostCategory");
+          let newPostButton = document.getElementById("newPostButton");
+
+          newPostButton.addEventListener("click", (e) =>{
+            // datos que I will send addEventListener("click", (e) =>{});
+            const credentials = {
+              nickname: nickname,
+              type: newPostType.value,
+              url: basicurl.value,
+              date: today,
+              category: newPostCategory.value,
+            };
+            // Enviando los datos a la API fetch("link", {})
+            fetch("http://localhost:5000/release",{
+              method: "POST",
+              headers:{"content-type": "application/json"},
+              body: JSON.stringify(credentials),
+            })
+            
+            // Resiviendo los datos de la API
+              .then((response) => response.json())
+              .then((data) => {
+                  
+                let params = `name=${name}`;
+                params += `&gender=${gender}`;
+                params += `&nickname=${nickname}`;
+                params += `&email=${email}`;
+                params += `&password=${password}`;
+                window.location = "admin.html?"+params;
+                
+              })
+
+          });
+
 
 
       </script>
