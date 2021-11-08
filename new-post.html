@@ -113,7 +113,7 @@
               category: newPostCategory.value,
             };
             // Enviando los datos a la API fetch("link", {})
-            fetch("http://localhost:5000/release",{
+            fetch("https://ublogback.herokuapp.com/release",{
               method: "POST",
               headers:{"content-type": "application/json"},
               body: JSON.stringify(credentials),

@@ -56,7 +56,7 @@
           function cargarTados(){
 
             let allpublicaciones = document.getElementById("allpublicaciones");
-          fetch("http://localhost:5000/release", {method: "GET"})
+          fetch("https://ublogback.herokuapp.com/release", {method: "GET"})
           .then((response) => response.json())
           .then((data) => {
             allpublicaciones.innerHTML = "";
@@ -114,7 +114,7 @@
               console.log(publicacion["id"]);
              
               anchor.addEventListener("click", (e)=> {
-                fetch("http://localhost:5000/increment", {
+                fetch("https://ublogback.herokuapp.com/increment", {
                   method: "POST",
                   headers: {"content-type": "application/json"},
                   body: JSON.stringify({"id": publicacion["id"],"nickname": publicacion["nickname"]}),

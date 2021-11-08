@@ -109,7 +109,7 @@
         let cadaindividuo = document.getElementById("cadaindividuo");
         cadaindividuo.innerHTML = "";
 
-        fetch("http://localhost:5000/allusers",{
+        fetch("https://ublogback.herokuapp.com/allusers",{
             method: "GET",
         })
             .then((respuesta) => respuesta.json())

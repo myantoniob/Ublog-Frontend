@@ -321,7 +321,7 @@
             chooseUserlist.className = "dropdown-menu";
             chooseUserlist.setAttribute("aria-labelledby", "dropdownMenuButton1");
 
-            fetch("http://localhost:5000/listusers", {
+            fetch("https://ublogback.herokuapp.com/listusers", {
               method: "GET",
             })
               .then(((respuesta) => respuesta.json()))
@@ -393,7 +393,7 @@
                       password: element.password
                     }
     
-                    fetch("http://localhost:5000/signup", {
+                    fetch("https://ublogback.herokuapp.com/signup", {
                       method: "POST",
                       headers: {"content-type": "application/json"},
                       body: JSON.stringify(user),
@@ -437,7 +437,7 @@
                         category: element.category
                       }
 
-                      fetch("http://localhost:5000/release", {
+                      fetch("https://ublogback.herokuapp.com/release", {
                         method: "POST",
                         headers: {"content-type": "application/json"},
                         body: JSON.stringify(puimagenes),
@@ -457,7 +457,7 @@
                       date: element.date,
                       category: element.category
                     }
-                    fetch("http://localhost:5000/release", {
+                    fetch("https://ublogback.herokuapp.com/release", {
                       method: "POST",
                       headers: {"content-type": "application/json"},
                       body: JSON.stringify(puvideos),
@@ -499,7 +499,7 @@
             password: signupPassword.value,
           };
 
-          fetch("http://localhost:5000/signup", {
+          fetch("https://ublogback.herokuapp.com/signup", {
             method: "POST",
             headers: {  "content-type": "application/json"},
             body: JSON.stringify(newUser),
@@ -586,7 +586,7 @@
               category: newPostCategory.value,
             };
             // Enviando los datos a la API fetch("link", {})
-            fetch("http://localhost:5000/release",{
+            fetch("https://ublogback.herokuapp.com/release",{
               method: "POST",
               headers:{"content-type": "application/json"},
               body: JSON.stringify(credentials),

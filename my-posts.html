@@ -55,7 +55,7 @@
 
 
           let localPost = document.getElementById("localPost");
-          fetch("http://localhost:5000/myRelease", {
+          fetch("https://ublogback.herokuapp.com/myRelease", {
             method: "POST",
             headers: {"content-type": "application/json"},
             body: JSON.stringify({"nickname": nickname}),

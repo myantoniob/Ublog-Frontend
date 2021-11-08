@@ -139,7 +139,7 @@
             password: updatePassword.value,
           };
           
-          fetch("http://localhost:5000/update", {
+          fetch("https://ublogback.herokuapp.com/update", {
             method: "POST",
             headers: { "content-type": "application/json"},
             body: JSON.stringify(credentials),

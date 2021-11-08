@@ -61,7 +61,7 @@
 
 
         let micanvas = document.getElementById("migrafica").getContext("2d");
-        fetch("http://localhost:5000/release", {
+        fetch("https://ublogback.herokuapp.com/release", {
           method: "GET",
         })
           .then((respuesta) => respuesta.json())
@@ -81,7 +81,7 @@
           })
 
           let micanvas2 = document.getElementById("migrafica2").getContext("2d");
-          fetch("http://localhost:5000/alluserposts", {
+          fetch("https://ublogback.herokuapp.com/alluserposts", {
             method: "GET",
           })
           .then((respuesta) => respuesta.json())

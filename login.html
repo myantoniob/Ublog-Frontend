@@ -98,7 +98,7 @@
             password: loginPassword.value,
           };
 
-          fetch("http://localhost:5000/login", {
+          fetch("https://ublogback.herokuapp.com/login", {
             method: "POST",
             headers: {"content-type": "application/json"},
             body: JSON.stringify(credencial),
