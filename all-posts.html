@@ -157,12 +157,27 @@
 
           let allPostPerfil = document.getElementById("allPostPerfil");
           allPostPerfil.addEventListener("click", (e)=> {
-            let params = `name=${name}`;
+              console.log(nickname == "admin");
+            if(nickname == "admin"){
+              let params = `name=${name}`;
+            params += `&gender=${gender}`;
+            params += `&nickname=${nickname}`;
+            params += `&email=${email}`;
+            params += `&password=${password}`;
+            window.location = "admin.html?"+params;
+
+            }else{
+              let params = `name=${name}`;
             params += `&gender=${gender}`;
             params += `&nickname=${nickname}`;
             params += `&email=${email}`;
             params += `&password=${password}`;
             window.location = "profile.html?"+params;
+
+            }
+
+            
+
           });
 
         </script>

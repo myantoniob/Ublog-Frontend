@@ -18,6 +18,10 @@
           UBlog - Administrador 
         </a>
         <ul class="nav nav-tabs offset-md-3">
+
+          <li class="nav-item">
+            <a id="allPostAllPost" class="nav-link " aria-current="page" href="#" >All post </a>
+          </li>
         
           <li class="nav-item">
             <a id="myPostAllPost" class="nav-link " aria-current="page" href="#" >Visualizacion</a>
@@ -66,6 +70,8 @@
                 <div id="adminBotonesdos" class="row">
                 </div>
               
+                <div id="adminBotonestres" class="row">   
+                </div>
                 <!-- <button type="button" class="btn btn-secondary btn-lg mt-5 offset-md-2">Seleccionar archivos</button> 
                 <button type="button" class="btn btn-secondary btn-lg mt-5 ms-5" data-bs-toggle="modal" data-bs-target="#adminCargardatos">Cargar Publicaciones</button>
              -->
@@ -265,12 +271,16 @@
           } 
           
           //Carga los botones para PUBLICACIONES
+          let usuarioElegido = "";
           function public_botones(){
             let adminBotonesuno = document.getElementById("adminBotonesuno");
             adminBotonesuno.innerHTML = "";
 
             let adminBotonesdos = document.getElementById("adminBotonesdos");
             adminBotonesdos.innerHTML = "";
+
+            let adminBotonestres = document.getElementById("adminBotonestres");
+            adminBotonestres.innerHTML="";
 
             let choosefile = document.createElement("input");
               choosefile.setAttribute("type","file");
@@ -294,6 +304,56 @@
             user_boton.setAttribute("data-bs-target", "#cargarPublicaciones");
             user_boton.innerText = "Cargar Publicaciones";
             adminBotonesdos.appendChild(user_boton);
+
+            let chooseUser = document.createElement("div");
+            chooseUser.className = "dropdown";
+
+            let chooseUserbutton = document.createElement("button");
+            chooseUserbutton.className = "btn btn-secondary dropdown-toggle";
+            chooseUserbutton.setAttribute("type", "button");
+            chooseUserbutton.id = "dropdownMenuButton1";
+            chooseUserbutton.setAttribute("data-bs-toggle",  "dropdown");
+            chooseUserbutton.setAttribute("aria-expanded", "false");
+
+
+
+            let chooseUserlist = document.createElement("ul");
+            chooseUserlist.className = "dropdown-menu";
+            chooseUserlist.setAttribute("aria-labelledby", "dropdownMenuButton1");
+
+            fetch("http://localhost:5000/listusers", {
+              method: "GET",
+            })
+              .then(((respuesta) => respuesta.json()))
+              .then((datos) => {
+                datos.forEach(element => {
+                  let chooseUseritem = document.createElement("li");
+
+                  let chooseUseranchor = document.createElement("a");
+                  chooseUseranchor.className ="dropdown-item";
+                  chooseUseranchor.id = element;
+                   chooseUseranchor.innerText =element;
+                   chooseUseranchor.addEventListener("click", (e)=> {
+                        usuarioElegido = element;
+                        console.log(usuarioElegido);
+                   });
+
+                   chooseUseritem.appendChild(chooseUseranchor);
+                   chooseUserlist.appendChild(chooseUseritem);
+
+                });
+                
+              })
+
+
+
+            //let chooseUseritem = document.createElement("li");
+
+            chooseUser.appendChild(chooseUserbutton);
+            chooseUser.appendChild(chooseUserlist);
+
+            adminBotonestres.appendChild(chooseUser);
+
           }
           // Los primeros botones por default
           
@@ -370,7 +430,7 @@
                   // es para las IMAGENES
                   data.images.forEach(element => {
                       const puimagenes = {
-                        nickname: nickname,
+                        nickname: usuarioElegido,
                         type: "images",
                         url: element.url,
                         date: element.date,
@@ -391,7 +451,7 @@
                   // es para los VIDEOS
                   data.videos.forEach(element => {
                     const puvideos = {
-                      nickname: nickname,
+                      nickname: usuarioElegido,
                       type: "videos",
                       url: element.url,
                       date: element.date,
@@ -510,60 +570,6 @@
        // let usersFileInput = document.getElementById("usersFileInput");
      //   let usuariofilejson = document.getElementById("usuariofilejson");
 
-      //  usuariofilejson.addEventListener("click", (e)=> {
-          
-        //    let file = usersFileInput.files[0];
-            
-        //    let reader = new FileReader();
-            
-            
-         //   reader.readAsText(file);
-            
-          //  reader.onload = () => {
-           //   let data = JSON.parse(reader.result);
-           //   data.forEach( element => {
-                
-           //     const user = {
-           //       name: element.name,
-            //      gender: element.gender,
-             //     nickname: element.username,
-             //     email: element.email,
-             //     password: element.password
-              //  }
-
-             //   fetch("http://localhost:5000/signup", {
-             //     method: "POST",
-             //     headers: {"content-type": "application/json"},
-             //     body: JSON.stringify(user),
-             //   })
-             //     .then(((respuesta) => respuesta.json()))
-              //    .then((datos) => {
-                //    console.log("all done");
-               //   })
-                  
-           //   });
-              
-          //  }
-        //});
-
-        
-        //Carga masiva de PUBLICACIONES desde admin
-        
-        // let publicFileInput = document.getElementById("usersFileInput");
-        //let publicfilejson = document.getElementById("usuariofilejson");
-       // publicfilejson.addEventListener("click", (e)=> {
-        //  let file = publicFileInput.files[0];
-        //  let reader = new FileReader();
-
-       //   reader.readAsText(file);
-        //  reader.onload = () => {
-         //   let data = JSON.parse(reader.result);
-         //   console.log(data);
-         // }
-       // }); 
-
-
-
         //Para cargar publicaciones desde ADMIN
           let newPostType = document.getElementById("newPostType");
           let basicurl = document.getElementById("basic-url");
@@ -601,8 +607,48 @@
 
           });
 
+          // -------- El vab bar principal
+          
+          let myPostPerfil = document.getElementById("myPostPerfil");
+          myPostPerfil.addEventListener("click", (e)=> {
+            window.location = "index.html";
+          });
 
+          let allPostAllPost = document.getElementById("allPostAllPost");
+          allPostAllPost.addEventListener("click", (e)=> {
 
+            let params = `name=${name}`;
+            params += `&gender=${gender}`;
+            params += `&nickname=${nickname}`;
+            params += `&email=${email}`;
+            params += `&password=${password}`;
+            window.location = "all-posts.html?"+params;
+
+          });
+
+          let myPostAllPost = document.getElementById("myPostAllPost");
+          myPostAllPost.addEventListener("click", (e)=> {
+            let params = `name=${name}`;
+            params += `&gender=${gender}`;
+            params += `&nickname=${nickname}`;
+            params += `&email=${email}`;
+            params += `&password=${password}`;
+            window.location = "adminVisual.html?"+params;
+
+          });
+
+          let myPostNuevoPost = document.getElementById("myPostNuevoPost");
+            myPostNuevoPost.addEventListener("click", (e)=> {
+
+              let params = `name=${name}`;
+            params += `&gender=${gender}`;
+            params += `&nickname=${nickname}`;
+            params += `&email=${email}`;
+            params += `&password=${password}`;
+            window.location = "reportes.html?"+params;
+
+            });
+            
       </script>
       <!-- /Script -->
 
